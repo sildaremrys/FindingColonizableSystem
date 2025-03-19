@@ -30,7 +30,19 @@ This will install the only required package: `JSONStream`.
 
 ## Running the Script
 
-Once the setup is complete, you can run the following commands:
+Once the setup is complete,
+
+There are two methods of runing the program
+
+## Method 1
+
+```sh
+npm run runAll
+```
+
+## Method 2
+
+You can run the following commands:
 
 ### 1. Find Populated Systems
 
@@ -87,4 +99,4 @@ If you found this script useful and would like to support its development, consi
 
 Your support is greatly appreciated!
 
-https://www.paypal.com/donate/?hosted_button_id=Z28EZMHG4CG5A
+[![Donate via PayPal](https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif)](https://www.paypal.com/donate/?hosted_button_id=Z28EZMHG4CG5A)
