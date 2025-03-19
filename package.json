@@ -1,0 +1,18 @@
+{
+  "name": "findcandidatesystems",
+  "version": "1.0.0",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node test.js",
+    "unpop": "node ./scripts/CreateUnPopList.js",
+    "pop": "node ./scripts/CreatePopList.js",
+    "findCandidates": "node ./scripts/FindCandidates.js ",
+    "runAll": "npm run pop && npm run unpop && npm run findCandidates"
+  },
+  "author": "Damian Dowie",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "JSONStream": "^1.3.5"
+  }
+}
