@@ -10,7 +10,9 @@ const searchCriteria = {
     types: ["Planet"],
     subTypes: ["gas giant"],
     hasRings: true,
-    targetMaterials: ["Alexandrite"]
+    targetMaterials: ["Alexandrite"],
+    bodyCount: 30,
+	distanceToArrival: 100000
 };
 const maxDistance = 16; // Light-years
 const requiredService = "System Colonisation";
@@ -72,7 +74,7 @@ async function findColonizationCandidates() {
                 if (distance <= maxDistance) {
                     planetsChecked += system.bodies.length;
 
-                    if (hasValidPlanet(system, searchCriteria)) {
+                    if (meetsAllCriteria(system, searchCriteria)) {
                         candidateCount++;
                         candidateNames.push(system.name);
                         console.log(`✅ Candidate Found: ${system.name}`);
@@ -90,21 +92,32 @@ async function findColonizationCandidates() {
     console.log('✅ Processing complete. Results saved to:', outputFile);
 }
 
-function matchesCriteria(body, criteria) {
+//Check to see if the specified planet subTypes are present in the system
+function matchPlanets(body, criteria) {
     if (criteria.types && !criteria.types.includes(body.type)) return false;
-    if (criteria.subTypes && !criteria.subTypes.some(sub => body.subType?.includes(sub))) return false;
-    if (criteria.hasRings && !body.rings) return false;
-    if (criteria.targetMaterials) {
-        if (!body.rings || !body.rings.some(ring =>
-            ring.signals?.signals &&
-            criteria.targetMaterials.some(mat => ring.signals.signals[mat])
-        )) return false;
-    }
+    if (criteria.subTypes && !criteria.subTypes.every(sub => body.subType?.includes(sub))) return false;
     return true;
 }
 
-function hasValidPlanet(system, criteria) {
-    return system.bodies.some(body => matchesCriteria(body, criteria));
+//Check to see if the system contains rings with the specified hot spots
+function matchRings(signals, criteria) {
+    if(!criteria.targetMaterials.some(mat => signals.signals[mat])) return false;
+    return true;
+}
+
+//Check to see if all bodies are within the specified distance of the drop point
+function matchAllBodies(body, criteria) {
+    if (criteria.distanceToArrival && body.distanceToArrival < criteria.distanceToArrival) return true;
+}
+
+//Check to see if all criteria have been met
+function meetsAllCriteria(system, criteria) {
+    //	if (criteria.bodyCount && system.bodyCount && system.bodyCount < criteria.bodyCount) return false;
+    //	if (!system.bodies.some(body => matchPlanets(body, criteria))) return false;
+    //oldRings	if (criteria.hasRings && !system.bodies.body.rings.some(ring => matchRings(ring, criteria))) return false;
+    if (criteria.hasRings && !system.bodies.body?.rings?.ring.signals?.some(signals => matchRings(signals, criteria))) return false;
+    //	if (!system.bodies.every(body => matchAllBodies(body, criteria))) return false;
+    return true;
 }
 
 findColonizationCandidates().catch(console.error);
